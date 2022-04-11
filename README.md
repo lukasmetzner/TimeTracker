@@ -1,6 +1,9 @@
 # TimeTracker
 
+- Try it: [TimeTracker](https://lukasmetzner.github.io/TimeTracker/)
+
 ## TODOs
+- [ ] Display current project
 - [ ] Clean up code
 - [ ] Make actual components out of HelloWorld.vue
 
