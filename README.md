@@ -9,7 +9,7 @@
 ## Overview
 
 - The time table and projects list is stored in localStorage
-- You can clear the localStorage for the time table with **Clear Table** button
+- You can clear the localStorage for the time table with the **Clear Table** button
 - You can remove a project from the list and localStorage using the **Remove Project** button and the provided name
 - **End Current Project** will store the previously started project and not start a new one
 
