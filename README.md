@@ -1,24 +1,9 @@
 # time_tracker
 
-## Project setup
-```
-npm install
-```
+- Track how much time you spend in a project a day
+- Hit a project button to start a project and stop the previous one
+- Stores results in localStorage
+- localStorage can be cleared with Clear Table
+- Add new projects to button list
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![Screenshot of the web application](./readme_assets/screenshot.png)
