@@ -1,5 +1,7 @@
 # TimeTracker
 
+- Try it: lukasmetzner.github.io/TimeTracker/
+
 ## TODOs
 - [ ] Display current project
 - [ ] Clean up code
