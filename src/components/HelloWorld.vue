@@ -1,42 +1,106 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <h1>Button Table</h1>
+  <button @click="startDay">Clear Table</button>
+  <br>
+  <button @click="endDay">End Current Project</button>
+  <div id="button-table-div">
+    <button @click="addProject">Add Project</button>
+    <input type="text" v-model="newProjectName">
+    <div>
+      <button v-for="project in projects" :key="project" class="projectButton" @click="addProjectButtonHandler">
+        {{ project }}
+      </button>
+    </div>
+  </div>
+  <hr>
+  <h1>Time Table</h1>
+  <div id="time-table-div">
+    <table id="time-table">
+      <tr>
+        <th>Project Name</th>
+        <th>Working Time</th>
+      </tr>
+      <tr v-for="[project, time] in Object.entries(trackedTimes)" :key="project">
+        <td>{{ project }}</td>
+        <td>{{ this.msToTime(time) }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+  name: "HelloWorld",
+  data() {
+    return {
+      newProjectName: "",
+      gridWidthAndHeight: 2,
+      projects: [],
+      trackedTimes: {},
+      currentProject: "",
+      currentProjectStart: null,
+    };
+  },
+  mounted() {
+    var fromStorage = localStorage.getItem("trackedTimes");
+    if (fromStorage != null) {
+      this.trackedTimes = JSON.parse(fromStorage);
+    } else {
+      this.trackedTimes = {};
+    }
+  },
+  methods: {
+    addProject() {
+      this.projects.push(this.newProjectName);
+    },
+    addProjectButtonHandler(event) {
+      var projectName = event.srcElement.innerText;
+      if (this.currentProjectStart != null) {
+        var now = new Date();
+        var diff = now - this.currentProjectStart;
+        if (Object.keys(this.trackedTimes).includes(this.currentProject)) {
+          this.trackedTimes[this.currentProject] += diff;
+        } else {
+          this.trackedTimes[this.currentProject] = diff;
+        }
+        localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
+      }
+
+      this.currentProject = projectName;
+      this.currentProjectStart = new Date();
+    },
+    msToTime(duration) {
+      var milliseconds = Math.floor((duration % 1000) / 100),
+        seconds = Math.floor((duration / 1000) % 60),
+        minutes = Math.floor((duration / (1000 * 60)) % 60),
+        hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    },
+    endDay() {
+      if (this.currentProjectStart == null) {
+        alert("You haven't even started yet! Get to work!");
+        return;
+      }
+      var now = new Date();
+      var diff = now - this.currentProjectStart;
+      if (Object.keys(this.trackedTimes).includes(this.currentProject)) {
+        this.trackedTimes[this.currentProject] += diff;
+      } else {
+        this.trackedTimes[this.currentProject] = diff;
+      }
+      localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
+    },
+    startDay() {
+      localStorage.removeItem("trackedTimes");
+      this.trackedTimes = {};
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -54,5 +118,27 @@ li {
 }
 a {
   color: #42b983;
+}
+#button-table-div {
+  margin: auto;
+  width: 50%;
+}
+#button-table {
+  margin: auto;
+}
+#time-table-div {
+  margin: auto;
+  width: 50%;
+}
+#time-table {
+  margin: auto;
+  width: 50%;
+}
+button {
+  margin: 5px;
+}
+.projectButton {
+  width: 5em;
+  height: 5em;
 }
 </style>
