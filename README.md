@@ -15,8 +15,6 @@
 - Add new projects to button list
 - Remove projects from button list
 
-![Screenshot of the web application](./readme_assets/screenshot.png)
-
 ### Subtree stuff
 ```
 git subtree push --prefix dist origin gh-pages
