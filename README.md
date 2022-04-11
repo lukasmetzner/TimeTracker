@@ -1,6 +1,6 @@
 # TimeTracker
 
-- Try it: [TimeTracker](lukasmetzner.github.io/TimeTracker/)
+- Try it: [TimeTracker](https://lukasmetzner.github.io/TimeTracker/)
 
 ## TODOs
 - [ ] Display current project
