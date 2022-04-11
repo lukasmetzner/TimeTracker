@@ -1,4 +1,10 @@
-# time_tracker
+# TimeTracker
+
+## TODOs
+- [ ] Clean up code
+- [ ] Make actual components out of HelloWorld.vue
+
+## Overview
 
 - Track how much time you spend per project in a single day
 - Hit a project button to start a project and stop the previous one
