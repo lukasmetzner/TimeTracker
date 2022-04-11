@@ -3,7 +3,6 @@
 - Try it: [time-tracker](https://lukasmetzner.github.io/time-tracker/)
 
 ## TODOs
-- [ ] Display current project
 - [ ] Clean up code
 - [ ] Make actual components out of HelloWorld.vue
 

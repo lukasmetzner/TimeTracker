@@ -1,5 +1,7 @@
 <template>
   <h1>Button Table</h1>
+  <label>Current Project: {{ currentProject }}</label>
+  <br>
   <button @click="startDay">Clear Table</button>
   <br>
   <button @click="endDay">End Current Project</button>
@@ -111,6 +113,8 @@ export default {
         this.trackedTimes[this.currentProject] = diff;
       }
       localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
+      this.currentProject = "";
+      this.currentProjectStart = null;
     },
     startDay() {
       localStorage.removeItem("trackedTimes");
