@@ -59,8 +59,12 @@ export default {
   },
   methods: {
     addProject() {
-      this.projects.push(this.newProjectName);
-      localStorage.setItem("projects", JSON.stringify(this.projects));
+      if (!this.projects.includes(this.newProjectName)) {
+        this.projects.push(this.newProjectName);
+        localStorage.setItem("projects", JSON.stringify(this.projects));
+      } else {
+        alert("Project already added!");
+      }
     },
     removeProject() {
       this.projects = this.projects.filter(p => p != this.newProjectName);
