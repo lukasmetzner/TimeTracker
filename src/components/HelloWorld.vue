@@ -6,6 +6,7 @@
   <div id="button-table-div">
     <button @click="addProject">Add Project</button>
     <input type="text" v-model="newProjectName">
+    <button @click="removeProject">Remove Project</button>
     <div>
       <button v-for="project in projects" :key="project" class="projectButton" @click="addProjectButtonHandler">
         {{ project }}
@@ -42,16 +43,28 @@ export default {
     };
   },
   mounted() {
-    var fromStorage = localStorage.getItem("trackedTimes");
-    if (fromStorage != null) {
-      this.trackedTimes = JSON.parse(fromStorage);
+    var timesFromStorage = localStorage.getItem("trackedTimes");
+    if (timesFromStorage != null) {
+      this.trackedTimes = JSON.parse(timesFromStorage);
     } else {
       this.trackedTimes = {};
+    }
+
+    var projectsFromStorage = localStorage.getItem("projects");
+    if (projectsFromStorage != null) {
+      this.projects = JSON.parse(projectsFromStorage);
+    } else {
+      this.projects = [];
     }
   },
   methods: {
     addProject() {
       this.projects.push(this.newProjectName);
+      localStorage.setItem("projects", JSON.stringify(this.projects));
+    },
+    removeProject() {
+      this.projects = this.projects.filter(p => p != this.newProjectName);
+      localStorage.setItem("projects", JSON.stringify(this.projects));
     },
     addProjectButtonHandler(event) {
       var projectName = event.srcElement.innerText;
@@ -138,7 +151,7 @@ button {
   margin: 5px;
 }
 .projectButton {
-  width: 5em;
-  height: 5em;
+  min-width: 5em;
+  min-height: 5em;
 }
 </style>
