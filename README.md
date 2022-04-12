@@ -14,6 +14,7 @@
 - **End Current Project** will store the previously started project and not start a new one
 
 ## TODOs
+- [ ] Store current project in localStorage
 - [ ] Clean up code
 - [ ] Make actual components out of HelloWorld.vue
 
