@@ -57,6 +57,13 @@ export default {
     } else {
       this.projects = [];
     }
+
+    var currentProject = localStorage.getItem("currentProject");
+    if (currentProject != null) {
+      this.currentProject = currentProject;
+    } else {
+      this.currentProject = "";
+    }
   },
   methods: {
     addProject() {
