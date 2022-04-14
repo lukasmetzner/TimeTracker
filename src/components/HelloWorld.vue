@@ -41,7 +41,6 @@ export default {
       projects: [],
       trackedTimes: {},
       currentProject: "",
-      currentProjectStart: null,
     };
   },
   mounted() {
@@ -73,20 +72,29 @@ export default {
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
     addProjectButtonHandler(event) {
+      var currentProject = localStorage.getItem("currentProject");
+      var currentProjectStart = localStorage.getItem("currentProjectStart");
+
+      if (currentProjectStart != null) {
+        currentProjectStart = new Date(Date.parse(currentProjectStart));
+      }
+
       var projectName = event.srcElement.innerText;
-      if (this.currentProjectStart != null) {
+
+      if (currentProjectStart != null) {
         var now = new Date();
-        var diff = now - this.currentProjectStart;
-        if (Object.keys(this.trackedTimes).includes(this.currentProject)) {
-          this.trackedTimes[this.currentProject] += diff;
+        var diff = now - currentProjectStart;
+        if (Object.keys(this.trackedTimes).includes(currentProject)) {
+          this.trackedTimes[currentProject] += diff;
         } else {
-          this.trackedTimes[this.currentProject] = diff;
+          this.trackedTimes[currentProject] = diff;
         }
         localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
       }
 
       this.currentProject = projectName;
-      this.currentProjectStart = new Date();
+      localStorage.setItem("currentProject", projectName)
+      localStorage.setItem("currentProjectStart", (new Date()).toString());
     },
     msToTime(duration) {
       var milliseconds = Math.floor((duration % 1000) / 100),
@@ -101,20 +109,28 @@ export default {
       return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
     },
     endDay() {
-      if (this.currentProjectStart == null) {
+      var currentProject = localStorage.getItem("currentProject");
+      var currentProjectStart = localStorage.getItem("currentProjectStart")
+      if (currentProjectStart != null) {
+        currentProjectStart = new Date(Date.parse(currentProjectStart));
+      }
+
+      if (currentProjectStart == null) {
         alert("You haven't even started yet! Get to work!");
         return;
       }
       var now = new Date();
-      var diff = now - this.currentProjectStart;
-      if (Object.keys(this.trackedTimes).includes(this.currentProject)) {
-        this.trackedTimes[this.currentProject] += diff;
+      var diff = now - currentProjectStart;
+      if (Object.keys(this.trackedTimes).includes(currentProject)) {
+        this.trackedTimes[currentProject] += diff;
       } else {
-        this.trackedTimes[this.currentProject] = diff;
+        this.trackedTimes[currentProject] = diff;
       }
-      localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
+
       this.currentProject = "";
-      this.currentProjectStart = null;
+      localStorage.setItem("trackedTimes", JSON.stringify(this.trackedTimes));
+      localStorage.setItem("currentProject", "")
+      localStorage.removeItem("currentProjectStart");
     },
     startDay() {
       localStorage.removeItem("trackedTimes");
