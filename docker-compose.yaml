@@ -1,0 +1,6 @@
+services:
+  timetracker:
+    build: .
+    image: timetracker:latest
+    ports:
+      - 8080:8080
